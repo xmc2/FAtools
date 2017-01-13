@@ -12,9 +12,27 @@
 #   Build and Reload Package:  'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
+
 # FACTOR ANALYSIS TOOLS
 
-
+#' Scree plot
+#'
+#' Easy, one function approach to creating scree plots
+#'
+#' @param corr The correlation matrix to be used
+#' @param observations number of observations in dataset
+#' @param variables number of variables in dataset
+#'
+#' @return a plot
+#'
+#' @examples
+#' df_rename(
+#'      data.frame(letters[1:5], 1:5),
+#'      LETTERS[1:5],
+#'      "CAPS"
+#' )
+#'
+#' @export
 scree_plot <- function(corr, observations, variables){
         library(nFactors)
         ev <- eigen(corr) # get eigenvalues
@@ -24,7 +42,26 @@ scree_plot <- function(corr, observations, variables){
         return(nS)
 }
 
-
+#' Factor loadings table
+#'
+#' Creates a factor loading table
+#'
+#' @param loading_frame The data frame to be edited
+#' @param data_dic the rownames to be displayed
+#' @param loadings_no the names of the row name.
+#' @param cutoff loadings whose absolute value are less than this are excluded
+#' @param roundto rounding to how many digits
+#'
+#' @return None
+#'
+#' @examples
+#' df_rename(
+#'      data.frame(letters[1:5], 1:5),
+#'      LETTERS[1:5],
+#'      "CAPS"
+#' )
+#'
+#' @export
 loadings_table <- function(loading_frame, data_dic,
         loadings_no = 7,
         cutoff = 0.2,
@@ -47,7 +84,9 @@ loadings_table <- function(loading_frame, data_dic,
 
         # store this as a data frame
         bl_loadings <- sapply(bl_loadings, as.numeric, 1) %>%
-                matrix(ncol = bl_loadings_no) %>%
+
+                # no. of columns is the number of loadings
+                matrix(ncol = loadings_no) %>%
                 as.data.frame()
 
         # Assign the rownames as var names
