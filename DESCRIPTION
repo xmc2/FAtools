@@ -11,5 +11,5 @@ Imports:
     broom,
     knitr,
     readr
-License: What license is it under?
+License: MIT
 LazyData: TRUE

@@ -79,4 +79,6 @@ loadings_table <- function(loading_frame, data_dic,
         bl_loadings <- full_join(bl_loadings, data_dic  %>%
                                          dplyr::select(Name, Description)) %>%
                 dplyr::select(-Name)
+
+        return(bl_loadings)
 }
