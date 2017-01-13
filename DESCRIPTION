@@ -1,0 +1,15 @@
+Package: FAtools
+Type: Package
+Title: Provides Factor Analysis Viz tools
+Version: 0.0.1
+Date: 2017-01-12
+Author: Matt Cole
+Maintainer: Matt Cole <mattcole1093@gmail.com>
+Description: More about what it does (maybe more than one line)
+Imports:
+    dplyr,
+    broom,
+    knitr,
+    readr
+License: What license is it under?
+LazyData: TRUE
