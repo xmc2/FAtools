@@ -1,14 +1,3 @@
-# Hello, world!
-#
-# This is an example function named 'hello'
-# which prints 'Hello, world!'.
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
-# Some useful keyboard shortcuts for package authoring:
-#
 #   Build and Reload Package:  'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
@@ -62,25 +51,19 @@ scree_plot <- function(corr, observations, variables){
 #' )
 #'
 #' @export
-loadings_table <- function(loading_frame, data_dic,
+loadings_table <- function(loading_frame,
         loadings_no = 7,
         cutoff = 0.2,
-        roundto = 3){
+        roundto = 3,
+        data_dic){
 
+        library(dplyr)
 
-        # lets round all loadings to the round to number
+        # lets round all loadings to roundto parameter
         bl_loadings <- loading_frame[,1:loadings_no] %>%
                 as.data.frame() %>%
                 sapply(function(x) round(as.numeric(x), roundto))
 
-        # lets remove small loading values (small -> lower than cutoff)
-        for (j in 1:ncol(bl_loadings)){
-                for (i in 1:nrow(bl_loadings)){
-                        if (abs(as.numeric(bl_loadings[i,j])) < cutoff){
-                                bl_loadings[i,j] = ""
-                        }
-                }
-        }
 
         # store this as a data frame
         bl_loadings <- sapply(bl_loadings, as.numeric, 1) %>%
@@ -91,6 +74,15 @@ loadings_table <- function(loading_frame, data_dic,
 
         # Assign the rownames as var names
         rownames(bl_loadings) <- rownames(as.data.frame(unclass(loading_frame)))
+
+        # lets remove small loading values (small -> lower than cutoff)
+        for (j in 1:ncol(bl_loadings)){
+                for (i in 1:nrow(bl_loadings)){
+                        if (abs(as.numeric(bl_loadings[i,j])) < cutoff){
+                                bl_loadings[i,j] = ""
+                        }
+                }
+        }
 
         # now we want to get human readable names from these vars
         x <- vector()
@@ -106,18 +98,22 @@ loadings_table <- function(loading_frame, data_dic,
         bl_loadings$Name <- rownames(bl_loadings)
         bl_loadings <- as_data_frame(bl_loadings)
 
+        # if data_dic field is not NA then we can incorporate that information
         # we are only interested in the `name` and `description`
-        data_dic <- data_dic %>%
-                dplyr::select(Name, Description)
 
-        Encoding(data_dic$Description) <- 'latin1'
+        if (is.na(data_dic) == F){
+                data_dic <- data_dic %>%
+                        dplyr::select(Name, Description)
 
+                Encoding(data_dic$Description) <- 'latin1'
 
-        data_dic$Description <- substr(data_dic$Description, 3, nchar(data_dic$Description))
+                data_dic$Description <- substr(data_dic$Description, 3,
+                                               nchar(data_dic$Description))
 
-        bl_loadings <- full_join(bl_loadings, data_dic  %>%
-                                         dplyr::select(Name, Description)) %>%
-                dplyr::select(-Name)
+                bl_loadings <- full_join(bl_loadings, data_dic  %>%
+                                                 dplyr::select(Name, Description)) %>%
+                        dplyr::select(-Name)
+        }
 
         return(bl_loadings)
 }
