@@ -1,11 +1,11 @@
 Package: FAtools
 Type: Package
 Title: Provides Factor Analysis Viz tools
-Version: 0.0.1.9001
+Version: 0.0.1.9002
 Date: 2017-01-12
 Author: Matt Cole
 Maintainer: Matt Cole <mattcole1093@gmail.com>
-Description: Provides a convenient wrapper to the nFactors package to enable scree plot creation in
+Description: Provides a convenient way wrapper to the nFactors package to enable scree plot creation in
         an easy function.
 Imports:
     dplyr,

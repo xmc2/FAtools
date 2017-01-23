@@ -51,7 +51,8 @@ scree_plot <- function(corr, observations, variables){
 #' )
 #'
 #' @export
-loadings_table <- function(loading_frame,
+loadings_table <- function(
+        loading_frame,
         loadings_no = 7,
         cutoff = 0.2,
         roundto = 3,
@@ -60,26 +61,26 @@ loadings_table <- function(loading_frame,
         library(dplyr)
 
         # lets round all loadings to roundto parameter
-        bl_loadings <- loading_frame[,1:loadings_no] %>%
+        loadings <- loading_frame[,1:loadings_no] %>%
                 as.data.frame() %>%
                 sapply(function(x) round(as.numeric(x), roundto))
 
 
         # store this as a data frame
-        bl_loadings <- sapply(bl_loadings, as.numeric, 1) %>%
+        loadings <- sapply(loadings, as.numeric, 1) %>%
 
                 # no. of columns is the number of loadings
                 matrix(ncol = loadings_no) %>%
                 as.data.frame()
 
         # Assign the rownames as var names
-        rownames(bl_loadings) <- rownames(as.data.frame(unclass(loading_frame)))
+        rownames(loadings) <- rownames(as.data.frame(unclass(loading_frame)))
 
         # lets remove small loading values (small -> lower than cutoff)
-        for (j in 1:ncol(bl_loadings)){
-                for (i in 1:nrow(bl_loadings)){
-                        if (abs(as.numeric(bl_loadings[i,j])) < cutoff){
-                                bl_loadings[i,j] = ""
+        for (j in 1:ncol(loadings)){
+                for (i in 1:nrow(loadings)){
+                        if (abs(as.numeric(loadings[i,j])) < cutoff){
+                                loadings[i,j] = ""
                         }
                 }
         }
@@ -88,21 +89,23 @@ loadings_table <- function(loading_frame,
         x <- vector()
 
         for (i in 1:nrow(data_dic)){
-                x <- append(x, data_dic$Name[i] %in% rownames(bl_loadings))
+                x <- append(x, data_dic$Name[i] %in% rownames(loadings))
         }
 
         data_dic <- data_dic[x,]
+        data_dic$Description <- as.character(data_dic$Description)
+        data_dic$Name <- as.character(data_dic$Name)
 
         # merging the information from data dic into our loadings df
 
-        bl_loadings$Name <- rownames(bl_loadings)
-        bl_loadings <- as_data_frame(bl_loadings)
+        loadings$Name <- rownames(loadings)
+        loadings <- as_data_frame(loadings)
 
         # if data_dic field is not NA then we can incorporate that information
-        # we are only interested in the `name` and `description`
+        # we are only interested in the `Name` and `Description`
 
-        if (is.na(data_dic) == F){
-                data_dic <- data_dic %>%
+        if (is.data.frame(data_dic) == T){
+                data_dic <- data_dic %>% as_data_frame() %>%
                         dplyr::select(Name, Description)
 
                 Encoding(data_dic$Description) <- 'latin1'
@@ -110,10 +113,10 @@ loadings_table <- function(loading_frame,
                 data_dic$Description <- substr(data_dic$Description, 3,
                                                nchar(data_dic$Description))
 
-                bl_loadings <- full_join(bl_loadings, data_dic  %>%
+                loadings <- full_join(loadings, data_dic  %>%
                                                  dplyr::select(Name, Description)) %>%
                         dplyr::select(-Name)
         }
 
-        return(bl_loadings)
+        return(loadings)
 }
