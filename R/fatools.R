@@ -24,6 +24,9 @@
 #' @export
 scree_plot <- function(corr, observations, variables){
         library(nFactors)
+        if(dim(corr)[1] != dim(corr)[2]){
+                stop("corr is non square! ")
+        }
         ev <- eigen(corr) # get eigenvalues
         ap <- nFactors::parallel(subject=observations,var=variables,
                                  rep=100,cent=.05)
