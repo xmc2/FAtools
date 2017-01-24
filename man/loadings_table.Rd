@@ -4,22 +4,24 @@
 \alias{loadings_table}
 \title{Factor loadings table}
 \usage{
-loadings_table(loading_frame, data_dic, loadings_no = 7, cutoff = 0.2,
-  roundto = 3)
+loadings_table(loading_frame, loadings_no = 7, cutoff = 0.2, roundto = 3,
+  data_dic, trim = 0)
 }
 \arguments{
 \item{loading_frame}{The data frame to be edited}
-
-\item{data_dic}{the rownames to be displayed}
 
 \item{loadings_no}{the names of the row name.}
 
 \item{cutoff}{loadings whose absolute value are less than this are excluded}
 
 \item{roundto}{rounding to how many digits}
+
+\item{data_dic}{the rownames to be displayed, MUST contain a `Description` column and a `Name` column}
+
+\item{trim}{Removes the first n characters of the Description column when rendering the table.}
 }
 \value{
-None
+A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
 }
 \description{
 Creates a factor loading table

@@ -39,12 +39,13 @@ scree_plot <- function(corr, observations, variables){
 #' Creates a factor loading table
 #'
 #' @param loading_frame The data frame to be edited
-#' @param data_dic the rownames to be displayed
+#' @param data_dic the rownames to be displayed, MUST contain a `Description` column and a `Name` column
 #' @param loadings_no the names of the row name.
 #' @param cutoff loadings whose absolute value are less than this are excluded
 #' @param roundto rounding to how many digits
+#' @param trim Removes the first n characters of the Description column when rendering the table.
 #'
-#' @return None
+#' @return A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
 #'
 #' @examples
 #' df_rename(
@@ -59,7 +60,8 @@ loadings_table <- function(
         loadings_no = 7,
         cutoff = 0.2,
         roundto = 3,
-        data_dic){
+        data_dic,
+        trim = 0){
 
         library(dplyr)
 
@@ -113,13 +115,12 @@ loadings_table <- function(
 
                 Encoding(data_dic$Description) <- 'latin1'
 
-                data_dic$Description <- substr(data_dic$Description, 3,
+                data_dic$Description <- substr(data_dic$Description, trim,
                                                nchar(data_dic$Description))
 
                 loadings <- full_join(loadings, data_dic  %>%
                                                  dplyr::select(Name, Description)) %>%
                         dplyr::select(-Name)
         }
-
         return(loadings)
 }
