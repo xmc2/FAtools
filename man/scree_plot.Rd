@@ -19,12 +19,4 @@ a plot
 \description{
 Easy, one function approach to creating scree plots
 }
-\examples{
-df_rename(
-     data.frame(letters[1:5], 1:5),
-     LETTERS[1:5],
-     "CAPS"
-)
-
-}
 

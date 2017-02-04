@@ -1,8 +1,9 @@
 #   Build and Reload Package:  'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
-
+# http://stackoverflow.com/questions/27947344/r-use-magrittr-pipe-operator-in-self-written-package
 # FACTOR ANALYSIS TOOLS
+# need to add examples
 
 #' Scree plot
 #'
@@ -14,23 +15,20 @@
 #'
 #' @return a plot
 #'
-#' @examples
-#' df_rename(
-#'      data.frame(letters[1:5], 1:5),
-#'      LETTERS[1:5],
-#'      "CAPS"
-#' )
+#'
+#' @importFrom nFactors parallel
+#' @importFrom nFactors nScree
 #'
 #' @export
 scree_plot <- function(corr, observations, variables){
-        library(nFactors)
         if(dim(corr)[1] != dim(corr)[2]){
                 stop("corr is non square! ")
         }
+        # using base R eigen calculation
         ev <- eigen(corr) # get eigenvalues
         ap <- nFactors::parallel(subject=observations,var=variables,
                                  rep=100,cent=.05)
-        nS <- nScree(x=ev$values, aparallel=ap$eigen$qevpea)
+        nS <- nFactors::nScree(x=ev$values, aparallel=ap$eigen$qevpea)
         return(nS)
 }
 
@@ -47,12 +45,13 @@ scree_plot <- function(corr, observations, variables){
 #'
 #' @return A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
 #'
-#' @examples
-#' df_rename(
-#'      data.frame(letters[1:5], 1:5),
-#'      LETTERS[1:5],
-#'      "CAPS"
-#' )
+#'
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr select
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr full_join
+#' @importFrom dplyr as_data_frame
+#'
 #'
 #' @export
 loadings_table <- function(
@@ -60,10 +59,8 @@ loadings_table <- function(
         loadings_no = 7,
         cutoff = 0.2,
         roundto = 3,
-        data_dic,
+        data_dic = NA,
         trim = 0){
-
-        library(dplyr)
 
         # lets round all loadings to roundto parameter
         loadings <- loading_frame[,1:loadings_no] %>%
@@ -110,16 +107,17 @@ loadings_table <- function(
         # we are only interested in the `Name` and `Description`
 
         if (is.data.frame(data_dic) == T){
-                data_dic <- data_dic %>% as_data_frame() %>%
+                data_dic <- data_dic %>%
+                        dplyr::as_data_frame() %>%
                         dplyr::select(Name, Description)
 
                 Encoding(data_dic$Description) <- 'latin1'
 
                 data_dic$Description <- substr(data_dic$Description, trim,
-                                               nchar(data_dic$Description))
+                        nchar(data_dic$Description))
 
                 loadings <- full_join(loadings, data_dic  %>%
-                                                 dplyr::select(Name, Description)) %>%
+                        dplyr::select(Name, Description)) %>%
                         dplyr::select(-Name)
         }
         return(loadings)

@@ -5,7 +5,7 @@
 \title{Factor loadings table}
 \usage{
 loadings_table(loading_frame, loadings_no = 7, cutoff = 0.2, roundto = 3,
-  data_dic, trim = 0)
+  data_dic = NA, trim = 0)
 }
 \arguments{
 \item{loading_frame}{The data frame to be edited}
@@ -25,13 +25,5 @@ A table with rounded factor loadings, ommiting weak loadings with variable infor
 }
 \description{
 Creates a factor loading table
-}
-\examples{
-df_rename(
-     data.frame(letters[1:5], 1:5),
-     LETTERS[1:5],
-     "CAPS"
-)
-
 }
 

@@ -1,7 +1,7 @@
 Package: FAtools
 Type: Package
 Title: Provides Factor Analysis Viz tools
-Version: 0.0.1.9002
+Version: 0.0.1.9003
 Date: 2017-01-12
 Author: Matt Cole
 Maintainer: Matt Cole <mattcole1093@gmail.com>
@@ -11,7 +11,9 @@ Imports:
     dplyr,
     broom,
     knitr,
-    readr
-License: MIT
+    magrittr,
+    nFactors,
+    dplyr
+License: MIT + file LICENSE
 LazyData: TRUE
 RoxygenNote: 5.0.1

@@ -2,3 +2,9 @@
 
 export(loadings_table)
 export(scree_plot)
+importFrom(dplyr,as_data_frame)
+importFrom(dplyr,full_join)
+importFrom(dplyr,select)
+importFrom(magrittr,"%>%")
+importFrom(nFactors,nScree)
+importFrom(nFactors,parallel)
