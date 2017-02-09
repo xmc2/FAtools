@@ -1,2 +1,9 @@
 language: r
+r:
+  - oldrel
+  - release
 cache: packages
+os:
+  - linux
+  - osx
+  - windows
