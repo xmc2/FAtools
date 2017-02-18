@@ -6,5 +6,6 @@ inst/db
 man-roxygen
 ^cran-comments\.md$
 ^README\.Rmd$
+^README\.md$
 ^revdep$
 ^README-.*\.png$

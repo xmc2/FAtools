@@ -1,0 +1,75 @@
+---
+title: "readme.rmd"
+author: "Matt Cole"
+date: "2/18/2017"
+output:
+  md_document:
+    variant: markdown_github
+---
+Factor analysis visualization made easy with FAtools
+=================
+[![Build Status](https://travis-ci.org/mattkcole/FAtools.svg?branch=master)](https://travis-ci.org/mattkcole/FAtools)
+
+
+From choosing the numbers of factors to extract to inspecting loadings, factor analysis can be very visual in nature.
+The FAtools R package aims to make this process easier by providing functions to do visualizations with ease.
+
+### To Download:
+
+```{r message=FALSE}
+# library('devtools')
+# devtools::install_github('mattkcole/FAtools')
+library('FAtools')
+```
+
+### Examples:
+
+We can first look at our data (here we are using the possibly cliche but familiar data, mtcars).
+```{r}
+library(datasets)
+summary(mtcars)
+```
+
+Let's first make our correlation matrix - we wont worry about scaling or investigating our data much for this demonstration (usually a bad idea).
+```{r}
+corr.matrix <- cor(mtcars)
+```
+
+Let's load the packages we need for our analysis:
+```{r}
+library(psych)
+library(FAtools)
+```
+
+Lets make and plot our scree plot to assess the number of factors present.
+```{r}
+s.plot <- FAtools::scree_plot(corr.matrix, nrow(mtcars), ncol(mtcars))
+plot(s.plot)
+```
+
+We can conduct our factor analysis with two factors using the psych package.
+```{r}
+results <- psych::fa(corr.matrix, 2)
+results$loadings
+```
+
+
+The loadings look pretty good, but we can make them more interpretable by excluding low loadings and including labels - And we can use the knitr::kable() function for great looking tables.
+
+```{r}
+library(knitr)
+```
+
+```{r}
+awesometable <- FAtools::loadings_table(results$loadings, 2)
+kable(awesometable)
+```
+
+Submit and issue with any concerns! 
+
+
+
+Credits:
+Much of the scree plot functionality comes from code provided by:
+[www.statmethods.net](http://www.statmethods.net/advstats/factor.html)
+

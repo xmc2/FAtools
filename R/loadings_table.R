@@ -5,33 +5,6 @@
 # FACTOR ANALYSIS TOOLS
 # need to add examples
 
-#' Scree plot
-#'
-#' Easy, one function approach to creating scree plots
-#'
-#' @param corr The correlation matrix to be used
-#' @param observations number of observations in dataset
-#' @param variables number of variables in dataset
-#'
-#' @return a plot
-#'
-#'
-#' @importFrom nFactors parallel
-#' @importFrom nFactors nScree
-#'
-#' @export
-scree_plot <- function(corr, observations, variables){
-        if(dim(corr)[1] != dim(corr)[2]){
-                stop("corr is non square! ")
-        }
-        # using base R eigen calculation
-        ev <- eigen(corr) # get eigenvalues
-        ap <- nFactors::parallel(subject=observations,var=variables,
-                                 rep=100,cent=.05)
-        nS <- nFactors::nScree(x=ev$values, aparallel=ap$eigen$qevpea)
-        return(nS)
-}
-
 #' Factor loadings table
 #'
 #' Creates a factor loading table
@@ -42,13 +15,15 @@ scree_plot <- function(corr, observations, variables){
 #' @param cutoff loadings whose absolute value are less than this are excluded
 #' @param roundto rounding to how many digits
 #' @param trim Removes the first n characters of the Description column when rendering the table.
+#' @param Name variable name (to be included as a column in data_dic)
+#' @param Description variable description (to be included as a column in data_dic)
+#'
 #'
 #' @return A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
 #'
 #'
 #' @importFrom magrittr "%>%"
 #' @importFrom dplyr select
-#' @importFrom magrittr "%>%"
 #' @importFrom dplyr full_join
 #' @importFrom dplyr as_data_frame
 #'
@@ -60,7 +35,9 @@ loadings_table <- function(
         cutoff = 0.2,
         roundto = 3,
         data_dic = NA,
-        trim = 0){
+        trim = 0,
+        Name = NA,
+        Description = NA){
 
         # lets round all loadings to roundto parameter
         loadings <- loading_frame[,1:loadings_no] %>%
@@ -90,13 +67,6 @@ loadings_table <- function(
         # now we want to get human readable names from these vars
         x <- vector()
 
-        for (i in 1:nrow(data_dic)){
-                x <- append(x, data_dic$Name[i] %in% rownames(loadings))
-        }
-
-        data_dic <- data_dic[x,]
-        data_dic$Description <- as.character(data_dic$Description)
-        data_dic$Name <- as.character(data_dic$Name)
 
         # merging the information from data dic into our loadings df
 
@@ -107,6 +77,14 @@ loadings_table <- function(
         # we are only interested in the `Name` and `Description`
 
         if (is.data.frame(data_dic) == T){
+                for (i in 1:nrow(data_dic)){
+                        x <- append(x, data_dic$Name[i] %in% rownames(loadings))
+                }
+
+                data_dic <- data_dic[x,]
+                data_dic$Description <- as.character(data_dic$Description)
+                data_dic$Name <- as.character(data_dic$Name)
+
                 data_dic <- data_dic %>%
                         dplyr::as_data_frame() %>%
                         dplyr::select(Name, Description)
