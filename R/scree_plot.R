@@ -10,6 +10,7 @@
 #'
 #' @importFrom nFactors parallel
 #' @importFrom nFactors nScree
+#' @importFrom MASS mvrnorm
 #'
 #' @export
 scree_plot <- function(corr, observations, variables){
