@@ -73,6 +73,19 @@ loadings_table <- function(
         loadings$Name <- rownames(loadings)
         loadings <- as_data_frame(loadings)
 
+        # if there is not a data dictionary, but there is a description
+        #       merge Description and Name to make a data dictionary
+
+        if (is.data.frame(data_dic) == F & length(Description) > 1){
+                if (length(Name) == length(Description)){
+                        data_dic <- cbind(Name, Description) %>%
+                                as.data.frame()
+                } else {
+                        warning("Length of Name and length of
+                                Description are not equal")
+                }
+        }
+
         # if data_dic field is not NA then we can incorporate that information
         # we are only interested in the `Name` and `Description`
 
@@ -95,8 +108,9 @@ loadings_table <- function(
                         nchar(data_dic$Description))
 
                 loadings <- full_join(loadings, data_dic  %>%
-                        dplyr::select(Name, Description)) %>%
+                        dplyr::select(Name, Description), by = "Name") %>%
                         dplyr::select(-Name)
         }
+
         return(loadings)
 }

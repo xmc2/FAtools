@@ -8,8 +8,8 @@ From choosing the numbers of factors to extract to inspecting loadings, factor a
 ### To Download:
 
 ``` r
-library('devtools')
-devtools::install_github('mattkcole/FAtools')
+# library('devtools')
+# devtools::install_github('mattkcole/FAtools')
 library('FAtools')
 ```
 
@@ -60,11 +60,9 @@ library(FAtools)
 Lets make and plot our scree plot to assess the number of factors present.
 
 ``` r
-s.plot <- FAtools::scree_plot(corr.matrix, nrow(mtcars), ncol(mtcars))
-plot(s.plot)
+# s.plot <- FAtools::scree_plot(corr.matrix, nrow(mtcars), ncol(mtcars))
+# plot(s.plot)
 ```
-
-![](readme_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 We can conduct our factor analysis with two factors using the psych package.
 
@@ -78,7 +76,7 @@ results <- psych::fa(corr.matrix, 2)
 results$loadings
 ```
 
-    ##
+    ## 
     ## Loadings:
     ##      MR1    MR2   
     ## mpg  -0.557  0.581
@@ -92,7 +90,7 @@ results$loadings
     ## am    0.176  0.942
     ## gear  0.234  0.920
     ## carb  0.835  0.201
-    ##
+    ## 
     ##                  MR1   MR2
     ## SS loadings    4.309 4.093
     ## Proportion Var 0.392 0.372
@@ -122,6 +120,50 @@ kable(awesometable)
 | am   |        | 0.942  | am   |
 | gear | 0.234  | 0.92   | gear |
 | carb | 0.835  | 0.201  | carb |
+
+Say we had more informative names than `colnames(mtcars)`.
+
+``` r
+cool_names <- c("Miles Per Gallon", "Cylinders", "Displacement",
+                "Gross horsepower", "Rear Axle ratio", "Weight (1K lbs)",
+                "1/4 mile time", "V/S", "Manual", "Number forward gears",
+                "Number of carburetors")
+```
+
+And say we wern't really all that interested in loadings with an absolute value less than 0.3.
+
+``` r
+FAtools::loadings_table(loading_frame = results$loadings, loadings_no = 2,
+                        cutoff = 0.3, roundto = 2,
+                        Name = colnames(mtcars), 
+                        Description = cool_names)
+```
+
+    ## # A tibble: 11 × 3
+    ##       V1    V2           Description
+    ##    <chr> <chr>                 <chr>
+    ## 1  -0.56  0.58      Miles Per Gallon
+    ## 2   0.69 -0.51             Cylinders
+    ## 3   0.55 -0.63          Displacement
+    ## 4   0.87            Gross horsepower
+    ## 5         0.79       Rear Axle ratio
+    ## 6   0.36 -0.74       Weight (1K lbs)
+    ## 7  -0.94 -0.33         1/4 mile time
+    ## 8   -0.8                         V/S
+    ## 9         0.94                Manual
+    ## 10        0.92  Number forward gears
+    ## 11  0.84       Number of carburetors
+
+We could also display this graphically, which works well when we have more retained factors or many more variables.
+
+``` r
+FAtools::loadings_plot(loadings = results$loadings,
+                       cool_names,
+                       colorbreaks = c(-.2,0.4,0.6,0.8,1),
+                       colors = RColorBrewer::brewer.pal(4,"Greens"))
+```
+
+![](readme_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 Submit and issue with any concerns!
 
