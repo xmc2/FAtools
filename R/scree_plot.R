@@ -15,6 +15,7 @@
 #' @export
 #'
 scree_plot <- function(corr, observations, variables = ncol(corr)){
+        library('MASS')
         if(dim(corr)[1] != dim(corr)[2]){
                 stop("corr is non square! ")
         }

@@ -17,9 +17,8 @@ The FAtools R package aims to make this process easier by providing functions to
 ### To Download:
 
 ```{r message=FALSE}
-# library('devtools')
-# devtools::install_github('mattkcole/FAtools')
-library('FAtools')
+library('devtools')
+devtools::install_github('mattkcole/FAtools')
 ```
 
 ### Examples:
@@ -37,8 +36,9 @@ corr.matrix <- cor(mtcars)
 
 Let's load the packages we need for our analysis:
 ```{r}
-library(psych)
-library(FAtools)
+library('psych')
+library('FAtools')
+library('MASS')
 ```
 
 Lets make and plot our scree plot to assess the number of factors present.
@@ -54,15 +54,14 @@ results$loadings
 ```
 
 
-The loadings look pretty good, but we can make them more interpretable by excluding low loadings and including labels - And we can use the knitr::kable() function for great looking tables.
+The loadings look pretty good, but we can make them more interpretable by excluding low loadings (param: `cutoff`), rounding (param: `roundto`), incorporate a data dictionary, and include labels -- And we can use the knitr::kable() function for great looking tables in Rmarkdown documents.  
 
 ```{r}
 library(knitr)
 ```
 
 ```{r}
-awesometable <- FAtools::loadings_table(results$loadings, 2)
-kable(awesometable)
+FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
 ```
 
 Say we had more informative names than `colnames(mtcars)`.
