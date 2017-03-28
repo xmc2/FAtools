@@ -8,9 +8,11 @@ From choosing the numbers of factors to extract to inspecting loadings, factor a
 ### To Download:
 
 ``` r
+
 # library('devtools')
 # devtools::install_github('mattkcole/FAtools')
 library('FAtools')
+
 ```
 
 ### Examples:
@@ -53,8 +55,9 @@ corr.matrix <- cor(mtcars)
 Let's load the packages we need for our analysis:
 
 ``` r
-library(psych)
-library(FAtools)
+library('psych')
+library('FAtools')
+library('MASS')
 ```
 
 Lets make and plot our scree plot to assess the number of factors present.
@@ -96,30 +99,30 @@ results$loadings
     ## Proportion Var 0.392 0.372
     ## Cumulative Var 0.392 0.764
 
-The loadings look pretty good, but we can make them more interpretable by excluding low loadings and including labels - And we can use the knitr::kable() function for great looking tables.
+The loadings look pretty good, but we can make them more interpretable by excluding low loadings (param: `cutoff`), rounding (param: `roundto`), incorporate a data dictionary, and include labels -- And we can use the knitr::kable() function for great looking tables in Rmarkdown documents.
 
 ``` r
 library(knitr)
 ```
 
 ``` r
-awesometable <- FAtools::loadings_table(results$loadings, 2)
-kable(awesometable)
+FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
 ```
 
-|      | V1     | V2     | Name |
-|------|:-------|:-------|:-----|
-| mpg  | -0.557 | 0.581  | mpg  |
-| cyl  | 0.688  | -0.51  | cyl  |
-| disp | 0.554  | -0.63  | disp |
-| hp   | 0.869  |        | hp   |
-| drat |        | 0.789  | drat |
-| wt   | 0.36   | -0.736 | wt   |
-| qsec | -0.944 | -0.328 | qsec |
-| vs   | -0.799 |        | vs   |
-| am   |        | 0.942  | am   |
-| gear | 0.234  | 0.92   | gear |
-| carb | 0.835  | 0.201  | carb |
+    ## # A tibble: 11 × 3
+    ##       V1    V2  Name
+    ## *  <chr> <chr> <chr>
+    ## 1  -0.56  0.58   mpg
+    ## 2   0.69 -0.51   cyl
+    ## 3   0.55 -0.63  disp
+    ## 4   0.87          hp
+    ## 5         0.79  drat
+    ## 6   0.36 -0.74    wt
+    ## 7  -0.94 -0.33  qsec
+    ## 8   -0.8          vs
+    ## 9         0.94    am
+    ## 10        0.92  gear
+    ## 11  0.84        carb
 
 Say we had more informative names than `colnames(mtcars)`.
 
