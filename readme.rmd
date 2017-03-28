@@ -43,8 +43,8 @@ library('MASS')
 
 Lets make and plot our scree plot to assess the number of factors present.
 ```{r}
-s.plot <- FAtools::scree_plot(corr.matrix, nrow(mtcars), ncol(mtcars))
-plot(s.plot)
+# s.plot <- FAtools::scree_plot(corr.matrix, nrow(mtcars), ncol(mtcars))
+# plot(s.plot)
 ```
 
 We can conduct our factor analysis with two factors using the psych package.
@@ -63,6 +63,35 @@ library(knitr)
 ```{r}
 FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
 ```
+
+Say we had more informative names than `colnames(mtcars)`.
+
+```{r}
+cool_names <- c("Miles Per Gallon", "Cylinders", "Displacement",
+                "Gross horsepower", "Rear Axle ratio", "Weight (1K lbs)",
+                "1/4 mile time", "V/S", "Manual", "Number forward gears",
+                "Number of carburetors")
+```
+
+And say we wern't really all that interested in loadings with an absolute value less than 0.3. 
+
+```{r}
+FAtools::loadings_table(loading_frame = results$loadings, loadings_no = 2,
+                        cutoff = 0.3, roundto = 2,
+                        Name = colnames(mtcars), 
+                        Description = cool_names)
+```
+
+
+We could also display this graphically, which works well when we have more retained factors or many more variables.
+
+```{r}
+FAtools::loadings_plot(loadings = results$loadings,
+                       cool_names,
+                       colorbreaks = c(-.2,0.4,0.6,0.8,1),
+                       colors = RColorBrewer::brewer.pal(4,"Greens"))
+```
+
 
 Submit and issue with any concerns! 
 

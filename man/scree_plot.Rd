@@ -4,7 +4,7 @@
 \alias{scree_plot}
 \title{Scree plot}
 \usage{
-scree_plot(corr, observations, variables)
+scree_plot(corr, observations, variables = ncol(corr))
 }
 \arguments{
 \item{corr}{The correlation matrix to be used}

@@ -1,18 +1,19 @@
 Package: FAtools
 Type: Package
-Title: Provides Factor Analysis Viz tools
-Version: 0.0.1.9004
+Title: A Collection of Factor Analysis Visualization tools
+Version: 0.0.1.9005
 Date: 2017-01-12
 Author: Matt Cole
 Maintainer: Matt Cole <mattcole1093@gmail.com>
-Description: Provides a convenient way wrapper to the nFactors package to enable scree plot creation in
-        an easy function.
+Description: Provides visualization tools for factor and principle component analyses.
 Imports:
     dplyr,
     knitr,
     magrittr,
     nFactors,
-    MASS
+    MASS,
+    gplots,
+    RColorBrewer
 Suggests: testthat
 License: MIT + file LICENSE
 LazyData: TRUE

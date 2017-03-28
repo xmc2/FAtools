@@ -13,7 +13,8 @@
 #' @importFrom MASS mvrnorm
 #'
 #' @export
-scree_plot <- function(corr, observations, variables){
+#'
+scree_plot <- function(corr, observations, variables = ncol(corr)){
         if(dim(corr)[1] != dim(corr)[2]){
                 stop("corr is non square! ")
         }

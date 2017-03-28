@@ -7,5 +7,7 @@ man-roxygen
 ^cran-comments\.md$
 ^README\.Rmd$
 ^README\.md$
+^readma_files$
+
 ^revdep$
 ^README-.*\.png$
