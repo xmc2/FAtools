@@ -9,6 +9,7 @@
 #' @return A plottable scree plot object
 #'
 #' @importFrom nFactors parallel nScree
+#' @importFrom MASS mvrnorm
 #'
 #' @examples
 #' set.seed(100)
