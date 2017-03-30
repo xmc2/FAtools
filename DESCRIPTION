@@ -1,7 +1,7 @@
 Package: FAtools
 Type: Package
 Title: A Collection of Factor Analysis Visualization tools
-Version: 0.0.1.9005
+Version: 0.0.1.9009
 Date: 2017-01-12
 Author: Matt Cole
 Maintainer: Matt Cole <mattcole1093@gmail.com>
@@ -11,10 +11,11 @@ Imports:
     knitr,
     magrittr,
     nFactors,
-    MASS,
     gplots,
     RColorBrewer
-Suggests: testthat
+Suggests: 
+    testthat,
+    psych
 License: MIT + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.0.1

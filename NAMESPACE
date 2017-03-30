@@ -3,7 +3,6 @@
 export(loadings_plot)
 export(loadings_table)
 export(scree_plot)
-importFrom(MASS,mvrnorm)
 importFrom(RColorBrewer,brewer.pal)
 importFrom(dplyr,as_data_frame)
 importFrom(dplyr,full_join)

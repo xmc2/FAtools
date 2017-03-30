@@ -30,3 +30,10 @@ A table with rounded factor loadings, ommiting weak loadings with variable infor
 \description{
 Creates a factor loading table
 }
+\examples{
+library(datasets)
+corr.matrix <- cor(mtcars)
+results <- psych::fa(corr.matrix, 2)
+FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
+
+}
