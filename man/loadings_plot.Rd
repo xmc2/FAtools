@@ -23,3 +23,4 @@ A graphic of factor loadings.
 Creates a factor loading plot.
 Essentially a heatmap built on top of gplot::heatmap.2.
 }
+

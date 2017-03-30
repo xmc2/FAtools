@@ -1,11 +1,15 @@
 Package: FAtools
 Type: Package
 Title: A Collection of Factor Analysis Visualization tools
-Version: 0.0.1.9009
+Version: 0.0.1.9020
 Date: 2017-01-12
 Author: Matt Cole
 Maintainer: Matt Cole <mattcole1093@gmail.com>
-Description: Provides visualization tools for factor and principle component analyses.
+Description: Provides visualization tools for factor and principle component
+    analyses.
+Depends:
+    R (>= 3.1.0),
+    MASS
 Imports:
     dplyr,
     knitr,
@@ -13,10 +17,9 @@ Imports:
     nFactors,
     gplots,
     RColorBrewer
-Suggests: 
+Suggests:
     testthat,
     psych
 License: MIT + file LICENSE
 LazyData: TRUE
-RoxygenNote: 6.0.1
-Suggests: testthat
+RoxygenNote: 5.0.1
