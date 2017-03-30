@@ -23,10 +23,13 @@
 #'
 #'
 #' @importFrom magrittr "%>%"
-#' @importFrom dplyr select
-#' @importFrom dplyr full_join
-#' @importFrom dplyr as_data_frame
+#' @importFrom dplyr select full_join as_data_frame
 #'
+#' @examples
+#' library(datasets)
+#' corr.matrix <- cor(mtcars)
+#' results <- psych::fa(corr.matrix, 2)
+#' FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
 #'
 #' @export
 loadings_table <- function(

@@ -14,8 +14,16 @@ scree_plot(corr, observations, variables = ncol(corr))
 \item{variables}{number of variables in dataset}
 }
 \value{
-a plot
+A plottable scree plot object
 }
 \description{
 Easy, one function approach to creating scree plots
+}
+\examples{
+set.seed(100)
+data <- matrix(rnorm(100), ncol = 10) # loading our 'data'
+data_cor <- cor(data)
+scree <- scree_plot(data_cor, 10, 10)
+plot(scree)
+
 }
