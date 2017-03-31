@@ -18,6 +18,7 @@ Factor analysis visualization made easy with FAtools
 =================
 [![Build Status](https://travis-ci.org/mattkcole/FAtools.svg?branch=master)](https://travis-ci.org/mattkcole/FAtools)
 
+### NOTE: THIS PACKAGE IS IN DEVELOPMENT
 
 From choosing the numbers of factors to extract to inspecting loadings, factor analysis can be very visual in nature.
 The FAtools R package aims to make this process easier by providing functions to do visualizations with ease.
