@@ -33,8 +33,7 @@ Creates a factor loading table
 \examples{
 library(datasets)
 corr.matrix <- cor(mtcars)
-results <- psych::fa(corr.matrix, 2)
+results <- psych::fa(corr.matrix, 2, rotate = "varimax")
 FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
 
 }
-

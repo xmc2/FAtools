@@ -27,4 +27,3 @@ scree <- scree_plot(data_cor, 10, 10)
 plot(scree)
 
 }
-

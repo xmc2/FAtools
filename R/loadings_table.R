@@ -5,9 +5,9 @@
 # FACTOR ANALYSIS TOOLS
 # need to add examples
 
-#' Factor loadings table
+#' @title Factor loadings table
 #'
-#' Creates a factor loading table
+#' @description Creates a factor loading table
 #'
 #' @param loading_frame The data frame to be edited
 #' @param data_dic the rownames to be displayed, MUST contain a `Description` column and a `Name` column
@@ -28,7 +28,7 @@
 #' @examples
 #' library(datasets)
 #' corr.matrix <- cor(mtcars)
-#' results <- psych::fa(corr.matrix, 2)
+#' results <- psych::fa(corr.matrix, 2, rotate = "varimax")
 #' FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
 #'
 #' @export
@@ -46,7 +46,6 @@ loadings_table <- function(
         loadings <- loading_frame[,1:loadings_no] %>%
                 as.data.frame() %>%
                 sapply(function(x) round(as.numeric(x), roundto))
-
 
         # store this as a data frame
         loadings <- sapply(loadings, as.numeric, 1) %>%

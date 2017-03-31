@@ -1,7 +1,7 @@
-#' Factor loadings plot
+#' @title Factor loadings plot
 #'
-#' Creates a factor loading plot.
-#' Essentially a heatmap built on top of gplot::heatmap.2.
+#' @description Creates a factor loading plot.
+#'     Essentially a heatmap built on top of gplot::heatmap.2. UNDER HEAVY DEVELOPMENT.
 #'
 #' @param loadings factor loadings
 #' @param colorbreaks cutpoints of the discontinuous factor loading colors
@@ -14,13 +14,31 @@
 #' @importFrom gplots heatmap.2
 #' @importFrom RColorBrewer brewer.pal
 #'
+#' @examples
+#' library(datasets)
+#' library(RColorBrewer)
+#' corr.matrix <- cor(mtcars)
+#' results <- psych::fa(corr.matrix, 5, rotate = "varimax")
+#' FAtools::loadings_plot(results$loadings,
+#' columnlabels = colnames(mtcars), colorbreaks = c(0, 0.2, 0.4, 0.6, 0.8,1),
+#' colors = brewer.pal(length(colorbreaks), "Greens"))
+#'
 #' @export
 
 loadings_plot <- function(loadings,
                           columnlabels,
-                          colorbreaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-                          colors = brewer.pal(length(colorbreaks),"Greens")
+                          breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+                          colors = NA
                           ){
+        # warning message
+        warning("This function is under heavy deleopment")
+
+        # auto selecting colors
+        if(length(breaks) != length(colors) - 1){
+                colors = brewer.pal(length(colorbreaks)-1,"Greens")
+        }
+
+        # calling heatmap2
         heatmap.2(x = t(loadings),
 
                           # making the rows not reorder

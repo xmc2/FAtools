@@ -4,23 +4,32 @@
 \alias{loadings_plot}
 \title{Factor loadings plot}
 \usage{
-loadings_plot(loadings, columnlabels, colorbreaks = c(0, 0.2, 0.4, 0.6, 0.8,
-  1), colors = brewer.pal(length(colorbreaks), "Greens"))
+loadings_plot(loadings, columnlabels, breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+  colors = NA)
 }
 \arguments{
 \item{loadings}{factor loadings}
 
 \item{columnlabels}{x-axis labels (typically more discriptive variable names)}
 
-\item{colorbreaks}{cutpoints of the discontinuous factor loading colors}
-
 \item{colors}{colors pertaining to the 'colorbreaks' argument}
+
+\item{colorbreaks}{cutpoints of the discontinuous factor loading colors}
 }
 \value{
 A graphic of factor loadings.
 }
 \description{
 Creates a factor loading plot.
-Essentially a heatmap built on top of gplot::heatmap.2.
+    Essentially a heatmap built on top of gplot::heatmap.2. UNDER HEAVY DEVELOPMENT.
 }
+\examples{
+library(datasets)
+library(RColorBrewer)
+corr.matrix <- cor(mtcars)
+results <- psych::fa(corr.matrix, 5, rotate = "varimax")
+FAtools::loadings_plot(results$loadings,
+columnlabels = colnames(mtcars), colorbreaks = c(0, 0.2, 0.4, 0.6, 0.8,1),
+colors = brewer.pal(length(colorbreaks), "Greens"))
 
+}
