@@ -11,8 +11,8 @@ man-roxygen
 
 ^revdep$
 ^README-.*\.png$
-
 Rplot.png
 readme_cache
 readme_files
 testing.R
+^appveyor\.yml$
