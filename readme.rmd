@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 Factor analysis visualization made easy with FAtools
 =================
 [![Build Status](https://travis-ci.org/mattkcole/FAtools.svg?branch=master)](https://travis-ci.org/mattkcole/FAtools)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mattkcole/FAtools?branch=master&svg=true)](https://ci.appveyor.com/project/mattkcole/FAtools)
 
 ### NOTE: THIS PACKAGE IS IN DEVELOPMENT
 
@@ -25,9 +26,9 @@ The FAtools R package aims to make this process easier by providing functions to
 
 ### To Download:
 
-```{r message=FALSE, loadingpackage}
-# library('devtools')
-# devtools::install_github('mattkcole/FAtools')
+```{r message=FALSE, loadingpackage, warning=FALSE}
+library('devtools')
+#devtools::install_github('mattkcole/FAtools')
 library('FAtools')
 ```
 
@@ -45,11 +46,11 @@ corr.matrix <- cor(mtcars)
 ```
 
 Let's load the packages we need for our analysis:
-```{r lodingpackages2, cache=T}
+```{r lodingpackages2, cache=F, message=FALSE, warning=FALSE}
 library('psych')
 library('FAtools')
-library('MASS')
 library('dplyr')
+library('knitr')
 ```
 
 Lets make and plot our scree plot to assess the number of factors present.
@@ -60,7 +61,7 @@ plot(s.plot)
 
 We can conduct our factor analysis with two factors using the psych package.
 ```{r loadings}
-results <- psych::fa(corr.matrix, 2)
+results <- psych::fa(corr.matrix, 2, rotate = "varimax")
 results$loadings
 ```
 
@@ -68,8 +69,6 @@ results$loadings
 The loadings look pretty good, but we can make them more interpretable by excluding low loadings (param: `cutoff`), rounding (param: `roundto`), incorporate a data dictionary, and include labels -- And we can use the knitr::kable() function for great looking tables in Rmarkdown documents.  
 
 ```{r}
-library('knitr')
-library('dplyr')
 FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2) %>%
         kable()
 ```
@@ -96,17 +95,20 @@ FAtools::loadings_table(loading_frame = results$loadings, loadings_no = 2,
 
 We could also display this graphically, which works well when we have more retained factors or many more variables. (let's say we have 5 factors extracted).
 
-```{r, fig.width=6, fig.height=2.5}
-library(dplyr)
-library(RColorBrewer)
+```{r factor_plot, fig.width=8, fig.height=4.5}
 loadings5 <- cor(mtcars) %>%
-        psych::fa(5)
+        psych::fa(2, rotate = "varimax")
         
 FAtools::loadings_plot(loadings5$loadings,
-                       columnlabels = rownames(loadings5$loadings),
                        colorbreaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-                       colors = brewer.pal(length(colorbreaks),"Greens"))
+                       labRow = c("F1", "F2"),
+                       columnlabels = cool_names)
 ```
+
+Looks great! 
+
+
+
 
 
 Submit and issue with any concerns! 
@@ -115,5 +117,5 @@ Submit and issue with any concerns!
 
 Credits:
 Much of the scree plot functionality comes from code provided by:
-[www.statmethods.net](http://www.statmethods.net/advstats/factor.html)
+[www.statmethods.net](http://www.statmethods.net/advstats/)
 
