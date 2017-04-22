@@ -18,6 +18,8 @@ Factor analysis visualization made easy with FAtools
 =================
 [![Build Status](https://travis-ci.org/mattkcole/FAtools.svg?branch=master)](https://travis-ci.org/mattkcole/FAtools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mattkcole/FAtools?branch=master&svg=true)](https://ci.appveyor.com/project/mattkcole/FAtools)
+[![Coverage Status](https://img.shields.io/codecov/c/github/mattkcole/FAtools/master.svg)](https://codecov.io/github/mattkcole/FAtools?branch=master)
+
 
 ### NOTE: THIS PACKAGE IS IN DEVELOPMENT
 
@@ -54,7 +56,7 @@ library('knitr')
 ```
 
 Lets make and plot our scree plot to assess the number of factors present.
-```{r scree_plot}
+```{r scree_plot, cache=TRUE}
 s.plot <- FAtools::scree_plot(corr.matrix, nrow(mtcars), ncol(mtcars))
 plot(s.plot)
 ```
@@ -95,7 +97,7 @@ FAtools::loadings_table(loading_frame = results$loadings, loadings_no = 2,
 
 We could also display this graphically, which works well when we have more retained factors or many more variables. (let's say we have 5 factors extracted).
 
-```{r factor_plot, fig.width=8, fig.height=4.5}
+```{r factor_plot, fig.width=8, fig.height=4.5, cache=TRUE}
 loadings5 <- cor(mtcars) %>%
         psych::fa(2, rotate = "varimax")
         
