@@ -2,7 +2,7 @@
 Factor analysis visualization made easy with FAtools
 ====================================================
 
-[![Build Status](https://travis-ci.org/mattkcole/FAtools.svg?branch=master)](https://travis-ci.org/mattkcole/FAtools) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mattkcole/FAtools?branch=master&svg=true)](https://ci.appveyor.com/project/mattkcole/FAtools)
+[![Build Status](https://travis-ci.org/mattkcole/FAtools.svg?branch=master)](https://travis-ci.org/mattkcole/FAtools) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mattkcole/FAtools?branch=master&svg=true)](https://ci.appveyor.com/project/mattkcole/FAtools) [![Coverage Status](https://img.shields.io/codecov/c/github/mattkcole/FAtools/master.svg)](https://codecov.io/github/mattkcole/FAtools?branch=master)
 
 ### NOTE: THIS PACKAGE IS IN DEVELOPMENT
 
