@@ -31,6 +31,7 @@ corr_plot <- function(corr,
                       columnlabels = NA,
                       labRow = NA,
                       xlab = NA){
+
         # assigning colors
         if((is.na(colors)) | (length(colors) != length(colorbreaks) - 1)){
                 colors = brewer.pal(length(colorbreaks)-1,"Greens")
@@ -38,14 +39,34 @@ corr_plot <- function(corr,
         colors = c("salmon1",brewer.pal(length(colorbreaks) - 2, "Blues"))
         corr %>%
                 as.matrix() %>%
-                gplots::heatmap.2(Rowv = F, Colv = F, dendrogram = "none",
-                                  scale = "none", breaks = colorbreaks, col = colors,
-                                  sepwidth = c(0,0), trace = "none", density.info = "none",
-                                  labRow = labRow, xlab = xlab, labCol = columnlabels,
+                gplots::heatmap.2(Rowv = F,
+                                  Colv = F,
+                                  dendrogram = "none",
+                                  scale = "none",
+                                  breaks = colorbreaks,
+                                  col = colors,
+                                  sepwidth = c(0,0),
+                                  trace = "none",
+                                  density.info = "none",
+                                  labRow = labRow,
+                                  xlab = xlab,
+                                  labCol = columnlabels,
                                   key = TRUE,
-                                  key.title = "Correlation", key.xlab = "Correlation",
-                                  symkey = FALSE, keysize = 1, lmat = rbind(c(2, 4), c(3, 1)),
-                                  lwid = c(0.5, 1.5), lhei = c(1,2.5),
-                                  key.par = list(mgp = c(1, 0.5, 0), mar = c(2.5, 0, 2.5, 7)), margins = c(7, 6),
-                                  offsetCol = 0, adjCol = c(1, 1), srtCol = 45)
+                                  key.title = "Correlation",
+                                  key.xlab = "Correlation",
+                                  symkey = FALSE,
+                                  keysize = 1,
+                                  lmat = rbind(c(2, 4), c(3, 1)),
+                                  lwid = c(0.5, 1.5),
+                                  lhei = c(1,2.5),
+                                  key.par = list(mgp = c(1, 0.5, 0),
+                                                 mar = c(2.5, 0, 2.5, 11),
+                                                 cex.main = 1.5,
+                                                 cex.lab = 1.2),
+                                  margins = c(7, 6),
+                                  offsetCol = 0,
+                                  adjCol = c(1, 1),
+                                  srtCol = 45,
+                                  las = 1,
+                                  offsetRow = 5)
 }
