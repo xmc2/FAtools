@@ -38,7 +38,7 @@ loadings_plot <- function(loadings,
 
         # Assessing labrow
 
-        if(is.na(labRow) == T){
+        if(length(labRow) == 1){
                 labRow = vector()
                 for (i in 1:ncol(loadings)){
                         labRow[i] <- paste("Factor",i,sep = " ")
