@@ -5,7 +5,7 @@
 \title{Factor loadings table from psych object}
 \usage{
 loadings_table_psych(psych_object, cutoff = 0.2, roundto = 3, trim = 0,
-  Description = NA)
+  Name = NA, communalities = T)
 }
 \arguments{
 \item{psych_object}{The Factor analysis psych object}
@@ -16,9 +16,9 @@ loadings_table_psych(psych_object, cutoff = 0.2, roundto = 3, trim = 0,
 
 \item{trim}{Removes the first n characters of the Description column when rendering the table.}
 
-\item{Description}{variable description (to be included as a column in data_dic)}
-
 \item{Name}{variable name (to be included as a column in data_dic)}
+
+\item{communalities}{include communalities?}
 }
 \value{
 A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
