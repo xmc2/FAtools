@@ -8,6 +8,7 @@
 #' @param trim Removes the first n characters of the Description column when rendering the table.
 #' @param Name variable name (to be included as a column in data_dic)
 #' @param Description variable description (to be included as a column in data_dic)
+#' @param communalities include communalities?
 #'
 #' @return A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
 #'
@@ -28,7 +29,8 @@ loadings_table_psych <- function(
         cutoff = 0.2,
         roundto = 3,
         trim = 0,
-        Description = NA){
+        Description = NA,
+        communalities = T){
 
         # checking to ensure we are working with a psych object
 
@@ -68,6 +70,10 @@ loadings_table_psych <- function(
         if (!is.na(Description)){
                 loadings$labels = loadings$Description
         }
+
+        loadings <- loadings %>%
+                dplyr::mutate(Communalities = psych_object$communalities %>%
+                                      round(roundto))
 
         return(loadings)
 }
