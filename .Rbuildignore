@@ -16,3 +16,4 @@ readme_cache
 readme_files
 testing.R
 ^appveyor\.yml$
+wrecker.yaml
