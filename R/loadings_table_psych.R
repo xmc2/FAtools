@@ -43,6 +43,7 @@ loadings_table_psych <- function(
         vars     <- nrow(psych_object$loadings)
         loadings <- psych_object$loadings[1:vars, 1:factors]
         labels   <- rownames(loadings)
+        communal <- psych_object$communalities
 
 
         # lets round all loadings to roundto parameter
@@ -71,7 +72,7 @@ loadings_table_psych <- function(
         }
 
         loadings <- loadings %>%
-                dplyr::mutate(Communalities = psych_object$communalities %>%
+                dplyr::mutate(Communalities = communal %>%
                                       round(roundto))
 
         return(loadings)
