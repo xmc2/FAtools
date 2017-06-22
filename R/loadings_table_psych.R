@@ -6,7 +6,8 @@
 #' @param cutoff loadings whose absolute value are less than this are excluded
 #' @param roundto rounding to how many digits
 #' @param trim Removes the first n characters of the Description column when rendering the table.
-#' @param Name variable name (to be included as a column in data_dic)
+#' @param fac.lab Alternative factor labels
+#' @param fac.lab Alternative variable labels
 #' @param communalities include communalities?
 #'
 #' @return A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
@@ -19,7 +20,7 @@
 #' library(datasets)
 #' corr.matrix <- cor(mtcars)
 #' results <- psych::fa(corr.matrix, 2, rotate = "varimax")
-#' loadings_table_psych(results, 2, cutoff = 0.3, roundto = 2)
+#' loadings_table_psych(results, 2, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100"))
 #'
 #' @export
 #'
@@ -28,7 +29,8 @@ loadings_table_psych <- function(
         cutoff = 0.2,
         roundto = 3,
         trim = 0,
-        Name = NA,
+        fac.lab = NULL,
+        var.lab = NULL,
         communalities = T){
 
         # checking to ensure we are working with a psych object
@@ -42,7 +44,17 @@ loadings_table_psych <- function(
         factors  <- ncol(psych_object$loadings)
         vars     <- nrow(psych_object$loadings)
         loadings <- psych_object$loadings[1:vars, 1:factors]
-        labels   <- rownames(loadings)
+
+        if (!is.null(fac.lab)){
+                colnames(loadings) = fac.lab
+        }
+
+        if (!is.null(var.lab)){
+                labels   <- var.lab
+        } else {
+                labels   <- rownames(loadings)
+        }
+
         communal <- psych_object$communalities
 
 
@@ -64,11 +76,11 @@ loadings_table_psych <- function(
         # Assign the rownames as var names
 
         loadings <- loadings %>%
-                mutate(labels = labels) %>%
-                dplyr::select(labels, everything())
+                mutate(Labels = labels) %>%
+                dplyr::select(Labels, everything())
 
-        if (!is.na(Name)){
-                loadings$labels = loadings$Name
+        if (!is.null(Name)){
+                loadings$Labels = loadings$Name
         }
 
         loadings <- loadings %>%

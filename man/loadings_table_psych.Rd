@@ -5,7 +5,7 @@
 \title{Factor loadings table from psych object}
 \usage{
 loadings_table_psych(psych_object, cutoff = 0.2, roundto = 3, trim = 0,
-  Name = NA, communalities = T)
+  fac.lab = NULL, var.lab = NULL, communalities = T)
 }
 \arguments{
 \item{psych_object}{The Factor analysis psych object}
@@ -16,9 +16,11 @@ loadings_table_psych(psych_object, cutoff = 0.2, roundto = 3, trim = 0,
 
 \item{trim}{Removes the first n characters of the Description column when rendering the table.}
 
-\item{Name}{variable name (to be included as a column in data_dic)}
+\item{fac.lab}{Alternative factor labels}
 
 \item{communalities}{include communalities?}
+
+\item{fac.lab}{Alternative variable labels}
 }
 \value{
 A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
@@ -30,6 +32,6 @@ Creates a factor loading table
 library(datasets)
 corr.matrix <- cor(mtcars)
 results <- psych::fa(corr.matrix, 2, rotate = "varimax")
-loadings_table_psych(results, 2, cutoff = 0.3, roundto = 2)
+loadings_table_psych(results, 2, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100"))
 
 }

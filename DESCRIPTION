@@ -1,7 +1,7 @@
 Package: FAtools
 Type: Package
 Title: A Collection of Factor Analysis Visualization tools
-Version: 0.0.1.9038
+Version: 0.0.1.9045
 Date: 2017-05-11
 Author: Matt Cole
 Maintainer: Matt Cole <mattcole1093@gmail.com>
@@ -15,7 +15,9 @@ Imports:
     magrittr,
     nFactors,
     gplots,
-    RColorBrewer
+    RColorBrewer,
+    corrplot,
+    grDevices
 Suggests:
     testthat,
     psych,
