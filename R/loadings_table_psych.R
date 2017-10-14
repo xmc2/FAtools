@@ -7,7 +7,7 @@
 #' @param roundto rounding to how many digits
 #' @param trim Removes the first n characters of the Description column when rendering the table.
 #' @param fac.lab Alternative factor labels
-#' @param fac.lab Alternative variable labels
+#' @param var.lab Alternative variable labels
 #' @param communalities include communalities?
 #'
 #' @return A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
@@ -19,8 +19,8 @@
 #' @examples
 #' library(datasets)
 #' corr.matrix <- cor(mtcars)
-#' results <- psych::fa(corr.matrix, 2, rotate = "varimax")
-#' loadings_table_psych(results, 2, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100"))
+#' results <- psych::fa(corr.matrix, 3, rotate = "varimax")
+#' loadings_table_psych(results, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100", "test"))
 #'
 #' @export
 #'
@@ -34,6 +34,7 @@ loadings_table_psych <- function(
         communalities = T){
 
         # checking to ensure we are working with a psych object
+        # if not, we will print a warning
 
         if (sum(class(psych_object) != c("psych", "fa")) == 2){
                 warning("Not psych object")
@@ -45,15 +46,27 @@ loadings_table_psych <- function(
         vars     <- nrow(psych_object$loadings)
         loadings <- psych_object$loadings[1:vars, 1:factors]
 
+        # Checking: did we provide factor labels?
+        # if so, lets use them as col names, else defaults
+
         if (!is.null(fac.lab)){
                 colnames(loadings) = fac.lab
+        } else {
+                colnames(loadings) <- rep("V", ncol(loadings))
+                for (i in 1:ncol(loadings)){
+                        colnames(loadings)[i] = paste(colnames(loadings)[i], i)
+                }
         }
 
+        # Checking: did we provide variable labels?
+        # if so, lets use them, else we will use current variable names
         if (!is.null(var.lab)){
                 labels   <- var.lab
         } else {
                 labels   <- rownames(loadings)
         }
+
+        # extracting communalities
 
         communal <- psych_object$communalities
 
@@ -79,13 +92,11 @@ loadings_table_psych <- function(
                 mutate(Labels = labels) %>%
                 dplyr::select(Labels, everything())
 
-        if (!is.null(Name)){
-                loadings$Labels = loadings$Name
-        }
 
         loadings <- loadings %>%
                 dplyr::mutate(Communalities = communal %>%
                                       round(roundto))
 
+        # we can return our loading matrix
         return(loadings)
 }

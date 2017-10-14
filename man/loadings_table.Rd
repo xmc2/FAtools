@@ -5,7 +5,7 @@
 \title{Factor loadings table}
 \usage{
 loadings_table(loading_frame, loadings_no = 7, cutoff = 0.2, roundto = 3,
-  data_dic = NA, trim = 0, Name = NA, Description = NA)
+  trim = 0, Name = NA, Communalities = F)
 }
 \arguments{
 \item{loading_frame}{The data frame to be edited}
@@ -16,13 +16,11 @@ loadings_table(loading_frame, loadings_no = 7, cutoff = 0.2, roundto = 3,
 
 \item{roundto}{rounding to how many digits}
 
-\item{data_dic}{the rownames to be displayed, MUST contain a `Description` column and a `Name` column}
-
 \item{trim}{Removes the first n characters of the Description column when rendering the table.}
 
 \item{Name}{variable name (to be included as a column in data_dic)}
 
-\item{Description}{variable description (to be included as a column in data_dic)}
+\item{Communalities}{Should the communalities be displayed?}
 }
 \value{
 A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
@@ -30,10 +28,6 @@ A table with rounded factor loadings, ommiting weak loadings with variable infor
 \description{
 Creates a factor loading table
 }
-\examples{
-library(datasets)
-corr.matrix <- cor(mtcars)
-results <- psych::fa(corr.matrix, 2, rotate = "varimax")
-FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2)
-
+\note{
+No longer exported, replaced by loadings_table_psych
 }

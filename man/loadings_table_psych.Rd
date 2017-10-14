@@ -18,9 +18,9 @@ loadings_table_psych(psych_object, cutoff = 0.2, roundto = 3, trim = 0,
 
 \item{fac.lab}{Alternative factor labels}
 
-\item{communalities}{include communalities?}
+\item{var.lab}{Alternative variable labels}
 
-\item{fac.lab}{Alternative variable labels}
+\item{communalities}{include communalities?}
 }
 \value{
 A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
@@ -31,7 +31,7 @@ Creates a factor loading table
 \examples{
 library(datasets)
 corr.matrix <- cor(mtcars)
-results <- psych::fa(corr.matrix, 2, rotate = "varimax")
-loadings_table_psych(results, 2, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100"))
+results <- psych::fa(corr.matrix, 3, rotate = "varimax")
+loadings_table_psych(results, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100", "test"))
 
 }
