@@ -20,7 +20,7 @@
 #' library(datasets)
 #' corr.matrix <- cor(mtcars)
 #' results <- psych::fa(corr.matrix, 3, rotate = "varimax")
-#' loadings_table_psych(results, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100", "test"))
+#' FAtools::loadings_table_psych(results, cutoff = 0.3, roundto = 2)
 #'
 #' @export
 #'
@@ -89,13 +89,14 @@ loadings_table_psych <- function(
         # Assign the rownames as var names
 
         loadings <- loadings %>%
-                mutate(Labels = labels) %>%
-                dplyr::select(Labels, everything())
+                dplyr::select(labels, everything())
 
 
         loadings <- loadings %>%
                 dplyr::mutate(Communalities = communal %>%
                                       round(roundto))
+
+        names(loadings)[names(loadings) == 'labels'] <- 'Labels'
 
         # we can return our loading matrix
         return(loadings)

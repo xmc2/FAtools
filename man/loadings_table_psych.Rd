@@ -32,6 +32,6 @@ Creates a factor loading table
 library(datasets)
 corr.matrix <- cor(mtcars)
 results <- psych::fa(corr.matrix, 3, rotate = "varimax")
-loadings_table_psych(results, cutoff = 0.3, roundto = 2, fac.lab = c("T1", "t100", "test"))
+loadings_table_psych(results, cutoff = 0.3, roundto = 2, fac.lab = c("F1", "F2", "F3"))
 
 }

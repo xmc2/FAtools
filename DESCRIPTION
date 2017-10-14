@@ -1,11 +1,11 @@
 Package: FAtools
 Type: Package
-Title: A Collection of Factor Analysis Visualization tools
-Version: 0.0.1.9050
-Date: 2017-05-11
+Title: A Collection of Factor and Principle Component Analysis Visualization tools
+Version: 0.0.1.9053
+Date: 2017-10-14
 Author: Matt Cole
-Maintainer: Matt Cole <mattcole1093@gmail.com>
-Description: Provides visualization tools for factor and principle component
+Maintainer: Matt Cole <matt@mattkcole.com>
+Description: Provides visualization tools for entire factor and principle component
     analyses.
 Depends:
     R (>= 3.1.0),
