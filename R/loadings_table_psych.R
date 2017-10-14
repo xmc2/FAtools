@@ -13,8 +13,7 @@
 #' @return A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
 #'
 #'
-#' @importFrom magrittr "%>%"
-#' @importFrom dplyr select full_join as_data_frame mutate everything
+#' @importFrom dplyr select full_join as_data_frame mutate everything "%>%"
 #'
 #' @examples
 #' library(datasets)
@@ -52,18 +51,18 @@ loadings_table_psych <- function(
         if (!is.null(fac.lab)){
                 colnames(loadings) = fac.lab
         } else {
-                colnames(loadings) <- rep("V", ncol(loadings))
+                colnames(loadings) <- rep("F", ncol(loadings))
                 for (i in 1:ncol(loadings)){
-                        colnames(loadings)[i] = paste(colnames(loadings)[i], i)
+                        colnames(loadings)[i] = paste(colnames(loadings)[i], i, sep = "")
                 }
         }
 
         # Checking: did we provide variable labels?
         # if so, lets use them, else we will use current variable names
         if (!is.null(var.lab)){
-                labels   <- var.lab
+                var_labels   <- var.lab
         } else {
-                labels   <- rownames(loadings)
+                var_labels   <- rownames(loadings)
         }
 
         # extracting communalities
@@ -88,15 +87,17 @@ loadings_table_psych <- function(
 
         # Assign the rownames as var names
 
-        loadings <- loadings %>%
-                dplyr::select(labels, everything())
-
+        # loadings <- loadings %>%
+        #         dplyr::select(labels, everything())
+        #
 
         loadings <- loadings %>%
                 dplyr::mutate(Communalities = communal %>%
-                                      round(roundto))
+                                      round(roundto),
+                              var_labels = var_labels) %>%
+                dplyr::select(var_labels, dplyr::everything()) %>%
+                dplyr::rename(`Labels` = var_labels)
 
-        names(loadings)[names(loadings) == 'labels'] <- 'Labels'
 
         # we can return our loading matrix
         return(loadings)
