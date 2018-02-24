@@ -87,10 +87,6 @@ loadings_table_psych <- function(
 
         # Assign the rownames as var names
 
-        # loadings <- loadings %>%
-        #         dplyr::select(labels, everything())
-        #
-
         loadings <- loadings %>%
                 dplyr::mutate(Communalities = communal %>%
                                       round(roundto),
