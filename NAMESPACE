@@ -3,6 +3,7 @@
 export(corr_plot)
 export(factor_cor_plot)
 export(loadings_plot)
+export(loadings_table)
 export(loadings_table_psych)
 export(scree_plot)
 importFrom(MASS,mvrnorm)

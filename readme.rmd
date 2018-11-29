@@ -49,10 +49,10 @@ corr.matrix <- cor(mtcars)
 
 Let's load the packages we need for our analysis:
 ```{r lodingpackages2, cache=F, message=FALSE, warning=FALSE}
-library('psych')
-library('FAtools')
-library('dplyr')
-library('knitr')
+library('psych')    # for statistical methods
+library('FAtools')  # for some plotting and EDA
+library('dplyr')    # for data wrangling
+library('knitr')    # for rmd help
 ```
 
 Lets make and plot our scree plot to assess the number of factors present.
@@ -87,10 +87,10 @@ cool_names <- c("Miles Per Gallon", "Cylinders", "Displacement",
 And say we wern't really all that interested in loadings with an absolute value less than 0.3. 
 
 ```{r }
-FAtools::loadings_table(loading_frame = results$loadings, loadings_no = 2,
+FAtools::loadings_table(loading_frame = results$loadings,
                         cutoff = 0.3, roundto = 2,
                         Name = colnames(mtcars), 
-                        Description = cool_names) %>%
+                        description = cool_names) %>%
         kable()
 ```
 
@@ -108,8 +108,6 @@ FAtools::loadings_plot(loadings5$loadings,
 ```
 
 Looks great! 
-
-
 
 
 

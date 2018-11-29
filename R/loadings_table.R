@@ -8,6 +8,7 @@
 #' @param roundto rounding to how many digits
 #' @param trim Removes the first n characters of the Description column when rendering the table.
 #' @param Name variable name (to be included as a column in data_dic)
+#' @param description variable description (optional)
 #' @param Communalities Should the communalities be displayed?
 #'
 #'
@@ -17,19 +18,20 @@
 #' @importFrom magrittr "%>%"
 #' @importFrom dplyr select full_join as_data_frame
 #'
-#'
-#' @note No longer exported, replaced by loadings_table_psych
+#' @export
+#' @note possibly will be replaced by loadings_table_psych
 #'
 loadings_table <- function(
         loading_frame,
-        loadings_no = 7,
+        loadings_no = ncol(loading_frame),
         cutoff = 0.2,
         roundto = 3,
         trim = 0,
         Name = NA,
-        Communalities = F){
+        Communalities = F,
+        description = NA){
 
-        if (class(loading_frame) == c("psych", "fa")){
+        if (class(loading_frame) %in% c("psych", "fa")){
                 psych_object = loading_frame
                 factors  <- ncol(psych_object$loadings)
                 vars     <- nrow(psych_object$loadings)
@@ -50,8 +52,17 @@ loadings_table <- function(
                 matrix(ncol = loadings_no) %>%
                 as.data.frame()
 
-        # Assign the rownames as var names
-        rownames(loadings) <- rownames(as.data.frame(unclass(loading_frame)))
+
+        # Descriptions
+        # if (length(description) > 1){
+        #         if (length(Name) == length(description)){
+        #                 data_dic <- cbind(Name, description) %>%
+        #                         as.data.frame()
+        #         } else {
+        #                 warning("Length of Name and length of
+        #                         Description are not equal")
+        #         }
+        #         }
 
         # lets remove small loading values (small -> lower than cutoff)
         for (j in 1:ncol(loadings)){
@@ -63,26 +74,38 @@ loadings_table <- function(
         }
 
         # now we want to get human readable names from these vars
-        x <- vector()
+        #x <- vector()
 
+
+        # Assign the rownames as var names
+        if (!anyNA(Name)){ # IF 'Name' is NOT NULL
+                loadings$name = Name
+        } else {
+                loadings$name = rownames(as.data.frame(unclass(loading_frame)))
+        }
 
         # merging the information from data dic into our loadings df
 
-        loadings$Name <- rownames(loadings)
-        loadings <- as_data_frame(loadings)
+
+        #loadings$Name <- rownames(loadings)
+        #loadings <- as_data_frame(loadings)
 
         # if there is not a data dictionary, but there is a description
         #       merge Description and Name to make a data dictionary
 
-        # if (is.data.frame(data_dic) == F & length(Description) > 1){
-        #         if (length(Name) == length(Description)){
-        #                 data_dic <- cbind(Name, Description) %>%
-        #                         as.data.frame()
-        #         } else {
-        #                 warning("Length of Name and length of
-        #                         Description are not equal")
-        #         }
-        # }
+
+        if (!anyNA(description)){
+                loadings$description <- description
+        }
+
+        if('description' %in% names(loadings)){
+                loadings = loadings %>% select('description', everything())
+        }
+
+        if('name' %in% names(loadings)){
+                loadings = loadings %>% select('name', everything())
+        }
+
 
         # if data_dic field is not NA then we can incorporate that information
         # we are only interested in the `Name` and `Description`
@@ -109,6 +132,7 @@ loadings_table <- function(
         #                 dplyr::select(Name, Description), by = "Name") %>%
         #                 dplyr::select(-Name)
         # }
+
 
         return(loadings)
 }

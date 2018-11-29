@@ -30,8 +30,9 @@ creates a simple correlation plot
 \examples{
 library(datasets)
 library(dplyr)
+library(RColorBrewer)
 data(mtcars)
-cor(mtcars[1:4,1:4]) \%>\%
+mtcars[1:4,1:4] \%>\%
 cor() \%>\%
 corr_plot(columnlabels = 1:4)
 

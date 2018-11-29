@@ -55,10 +55,10 @@ corr.matrix <- cor(mtcars)
 Let's load the packages we need for our analysis:
 
 ``` r
-library('psych')
-library('FAtools')
-library('dplyr')
-library('knitr')
+library('psych')    # for statistical methods
+library('FAtools')  # for some plotting and EDA
+library('dplyr')    # for data wrangling
+library('knitr')    # for rmd help
 ```
 
 Lets make and plot our scree plot to assess the number of factors present.
@@ -77,23 +77,23 @@ results <- psych::fa(corr.matrix, 2, rotate = "varimax")
 results$loadings
 #> 
 #> Loadings:
-#>      MR2    MR1   
-#> mpg   0.680 -0.607
-#> cyl  -0.634  0.728
-#> disp -0.729  0.609
-#> hp   -0.330  0.872
-#> drat  0.811 -0.222
-#> wt   -0.799  0.430
-#> qsec -0.152 -0.894
-#> vs    0.299 -0.801
-#> am    0.904       
-#> gear  0.872  0.136
-#> carb         0.800
+#>      MR1    MR2   
+#> mpg   0.675 -0.630
+#> cyl  -0.634  0.731
+#> disp -0.727  0.607
+#> hp   -0.316  0.881
+#> drat  0.812 -0.219
+#> wt   -0.784  0.454
+#> qsec -0.151 -0.873
+#> vs    0.295 -0.788
+#> am    0.901       
+#> gear  0.882  0.150
+#> carb         0.809
 #> 
-#>                  MR2   MR1
-#> SS loadings    4.495 4.369
-#> Proportion Var 0.409 0.397
-#> Cumulative Var 0.409 0.806
+#>                  MR1   MR2
+#> SS loadings    4.464 4.393
+#> Proportion Var 0.406 0.399
+#> Cumulative Var 0.406 0.805
 ```
 
 The loadings look pretty good, but we can make them more interpretable by excluding low loadings (param: `cutoff`), rounding (param: `roundto`), incorporate a data dictionary, and include labels -- And we can use the knitr::kable() function for great looking tables in Rmarkdown documents.
@@ -103,19 +103,19 @@ FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2) %>%
         kable()
 ```
 
-|      | V1    | V2    | Name |
-|------|:------|:------|:-----|
-| mpg  | 0.68  | -0.61 | mpg  |
-| cyl  | -0.63 | 0.73  | cyl  |
-| disp | -0.73 | 0.61  | disp |
-| hp   | -0.33 | 0.87  | hp   |
-| drat | 0.81  |       | drat |
-| wt   | -0.8  | 0.43  | wt   |
-| qsec |       | -0.89 | qsec |
-| vs   | 0.3   | -0.8  | vs   |
-| am   | 0.9   |       | am   |
-| gear | 0.87  |       | gear |
-| carb |       | 0.8   | carb |
+| name | V1    | V2    |
+|:-----|:------|:------|
+| mpg  | 0.68  | -0.63 |
+| cyl  | -0.63 | 0.73  |
+| disp | -0.73 | 0.61  |
+| hp   | -0.32 | 0.88  |
+| drat | 0.81  |       |
+| wt   | -0.78 | 0.45  |
+| qsec |       | -0.87 |
+| vs   | 0.3   | -0.79 |
+| am   | 0.9   |       |
+| gear | 0.88  |       |
+| carb |       | 0.81  |
 
 Say we had more informative names than `colnames(mtcars)`.
 
@@ -129,26 +129,26 @@ cool_names <- c("Miles Per Gallon", "Cylinders", "Displacement",
 And say we wern't really all that interested in loadings with an absolute value less than 0.3.
 
 ``` r
-FAtools::loadings_table(loading_frame = results$loadings, loadings_no = 2,
+FAtools::loadings_table(loading_frame = results$loadings,
                         cutoff = 0.3, roundto = 2,
                         Name = colnames(mtcars), 
-                        Description = cool_names) %>%
+                        description = cool_names) %>%
         kable()
 ```
 
-| V1    | V2    | Description      |
-|:------|:------|:-----------------|
-| 0.68  | -0.61 | Miles Per Gallon |
-| -0.63 | 0.73  | Cylinders        |
-| -0.73 | 0.61  | Displacement     |
-| -0.33 | 0.87  | Gross horsepower |
-| 0.81  |       | Rear Axle ratio  |
-| -0.8  | 0.43  | Weight (1K lbs)  |
-|       | -0.89 | 1/4 mile time    |
-| 0.3   | -0.8  | V/S              |
-| 0.9   |       | Manual           |
-| 0.87  |       | Forward gears    |
-|       | 0.8   | Carburetors      |
+| name | description      | V1    | V2    |
+|:-----|:-----------------|:------|:------|
+| mpg  | Miles Per Gallon | 0.68  | -0.63 |
+| cyl  | Cylinders        | -0.63 | 0.73  |
+| disp | Displacement     | -0.73 | 0.61  |
+| hp   | Gross horsepower | -0.32 | 0.88  |
+| drat | Rear Axle ratio  | 0.81  |       |
+| wt   | Weight (1K lbs)  | -0.78 | 0.45  |
+| qsec | 1/4 mile time    |       | -0.87 |
+| vs   | V/S              | 0.3   | -0.79 |
+| am   | Manual           | 0.9   |       |
+| gear | Forward gears    | 0.88  |       |
+| carb | Carburetors      |       | 0.81  |
 
 We could also display this graphically, which works well when we have more retained factors or many more variables. (let's say we have 5 factors extracted).
 

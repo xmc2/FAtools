@@ -4,8 +4,9 @@
 \alias{loadings_table}
 \title{Factor loadings table}
 \usage{
-loadings_table(loading_frame, loadings_no = 7, cutoff = 0.2, roundto = 3,
-  trim = 0, Name = NA, Communalities = F)
+loadings_table(loading_frame, loadings_no = ncol(loading_frame),
+  cutoff = 0.2, roundto = 3, trim = 0, Name = NA,
+  Communalities = F, description = NA)
 }
 \arguments{
 \item{loading_frame}{The data frame to be edited}
@@ -21,6 +22,8 @@ loadings_table(loading_frame, loadings_no = 7, cutoff = 0.2, roundto = 3,
 \item{Name}{variable name (to be included as a column in data_dic)}
 
 \item{Communalities}{Should the communalities be displayed?}
+
+\item{description}{variable description (optional)}
 }
 \value{
 A table with rounded factor loadings, ommiting weak loadings with variable information on the side.
@@ -29,5 +32,5 @@ A table with rounded factor loadings, ommiting weak loadings with variable infor
 Creates a factor loading table
 }
 \note{
-No longer exported, replaced by loadings_table_psych
+possibly will be replaced by loadings_table_psych
 }

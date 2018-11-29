@@ -4,8 +4,8 @@
 \alias{loadings_table_psych}
 \title{Factor loadings table from psych object}
 \usage{
-loadings_table_psych(psych_object, cutoff = 0.2, roundto = 3, trim = 0,
-  fac.lab = NULL, var.lab = NULL, communalities = T)
+loadings_table_psych(psych_object, cutoff = 0.2, roundto = 3,
+  trim = 0, fac.lab = NULL, var.lab = NULL, communalities = T)
 }
 \arguments{
 \item{psych_object}{The Factor analysis psych object}

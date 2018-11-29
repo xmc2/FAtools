@@ -4,8 +4,8 @@
 \alias{factor_cor_plot}
 \title{Effective Factor Correlation Plot}
 \usage{
-factor_cor_plot(psych_object, colors = 5, names = NA, cl.lim = c(-1, 1),
-  tl.srt = 45, type = "lower")
+factor_cor_plot(psych_object, colors = 5, names = NA, cl.lim = c(-1,
+  1), tl.srt = 45, type = "lower")
 }
 \arguments{
 \item{psych_object}{object resulting from psych::fa()}
