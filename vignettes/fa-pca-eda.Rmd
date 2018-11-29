@@ -1,0 +1,124 @@
+---
+title: "Factor Analysis and Principle Components Analysis Exploratory Data Analysis"
+author: "Matthew Cole"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE, setting_options}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+Factor analysis visualization made easy with FAtools
+=================
+<!--[![Build Status](https://travis-ci.org/mattkcole/FAtools.svg?branch=master)](https://travis-ci.org/mattkcole/FAtools)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mattkcole/FAtools?branch=master&svg=true)](https://ci.appveyor.com/project/mattkcole/FAtools)
+[![Coverage Status](https://img.shields.io/codecov/c/github/mattkcole/FAtools/master.svg)](https://codecov.io/github/mattkcole/FAtools?branch=master)
+-->
+
+### NOTE: THIS PACKAGE IS IN DEVELOPMENT
+
+From choosing the numbers of factors to extract to inspecting loadings, factor analysis can be very visual in nature.
+The FAtools R package aims to make this process easier by providing functions to do visualizations with ease.
+
+### To Download:
+
+```{r message=FALSE, loadingpackage, warning=FALSE}
+library('devtools')
+#devtools::install_github('mattkcole/FAtools')
+library('FAtools')
+```
+
+### Examples:
+
+We can first look at our data (here we are using the possibly cliche but familiar data, mtcars).
+```{r loadingdata}
+library(datasets)
+summary(mtcars)
+```
+
+Let's first make our correlation matrix - we wont worry about scaling or investigating our data much for this demonstration (usually a bad idea).
+```{r gettingcor}
+corr.matrix <- cor(mtcars)
+```
+
+Let's load the packages we need for our analysis:
+```{r lodingpackages2, cache=F, message=FALSE, warning=FALSE}
+library('psych')    # for statistical methods
+library('FAtools')  # for some plotting and EDA
+library('dplyr')    # for data wrangling
+library('knitr')    # for rmd help
+```
+
+Lets make and plot our scree plot to assess the number of factors present.
+```{r scree_plot, cache=TRUE}
+s.plot <- FAtools::scree_plot(corr.matrix, nrow(mtcars), ncol(mtcars))
+plot(s.plot)
+```
+
+We can conduct our factor analysis with two factors using the psych package.
+```{r loadings}
+results <- psych::fa(corr.matrix, 2, rotate = "varimax")
+results$loadings
+```
+
+
+The loadings look pretty good, but we can make them more interpretable by excluding low loadings (param: `cutoff`), rounding (param: `roundto`), incorporate a data dictionary, and include labels -- And we can use the knitr::kable() function for great looking tables in Rmarkdown documents.  
+
+```{r}
+FAtools::loadings_table(results$loadings, 2, cutoff = 0.3, roundto = 2) %>%
+        kable()
+```
+
+Say we had more informative names than `colnames(mtcars)`.
+
+```{r}
+cool_names <- c("Miles Per Gallon", "Cylinders", "Displacement",
+                "Gross horsepower", "Rear Axle ratio", "Weight (1K lbs)",
+                "1/4 mile time", "V/S", "Manual", "Forward gears",
+                "Carburetors")
+```
+
+And say we wern't really all that interested in loadings with an absolute value less than 0.3. 
+
+```{r }
+FAtools::loadings_table(loading_frame = results$loadings,
+                        cutoff = 0.3, roundto = 2,
+                        Name = colnames(mtcars), 
+                        description = cool_names) %>%
+        kable()
+```
+
+
+We could also display this graphically, which works well when we have more retained factors or many more variables. (let's say we have 5 factors extracted).
+
+```{r factor_plot, fig.width=8, fig.height=4.5, cache=TRUE}
+loadings5 <- cor(mtcars) %>%
+        psych::fa(2, rotate = "varimax")
+        
+FAtools::loadings_plot(loadings5$loadings,
+                       colorbreaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+                       labRow = c("F1", "F2"),
+                       columnlabels = cool_names)
+```
+
+Looks great! 
+
+
+
+Submit and issue with any concerns! 
+
+
+
+Credits:
+Much of the scree plot functionality comes from code provided by:
+[www.statmethods.net](http://www.statmethods.net/advstats/)
+
